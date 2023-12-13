@@ -9,6 +9,9 @@ exports.bookinstance_list = asyncHandler(async (req, res, next) => {
 		title: "Book Instance List",
 		bookinstance_list: allBookInstances,
 	});
+	BookInstanceSchema.virtual("due_back_formatted").get(function () {
+		return DateTime.fromJSDate(this.due_back).toLocaleString(DateTime.DATE_MED);
+	});
 });
 
 // Display detail page for a specific BookInstance.
