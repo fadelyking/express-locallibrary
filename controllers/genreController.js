@@ -4,6 +4,15 @@ const Book = require("../models/book");
 const asyncHandler = require("express-async-handler");
 
 // Display list of all Genre.
+exports.genre_list = asyncHandler(async (req, res, next) => {
+	const GenreList = await Genre.find().sort({ name: 1 }).exec();
+	res.render("genre_list", {
+		title: "Genre List",
+		genre_list: GenreList,
+	});
+});
+
+// Display detail page for a specific Genre.
 exports.genre_detail = asyncHandler(async (req, res, next) => {
 	// Get details of genre and all associated books (in parallel)
 	const [genre, booksInGenre] = await Promise.all([
@@ -22,11 +31,6 @@ exports.genre_detail = asyncHandler(async (req, res, next) => {
 		genre: genre,
 		genre_books: booksInGenre,
 	});
-});
-
-// Display detail page for a specific Genre.
-exports.genre_detail = asyncHandler(async (req, res, next) => {
-	res.send(`NOT IMPLEMENTED: Genre detail: ${req.params.id}`);
 });
 
 // Display Genre create form on GET.
